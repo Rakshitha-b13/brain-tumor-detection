@@ -1,0 +1,29 @@
+PRIVACY-AWARE FEDERATED OPTIMIZED FUSION RESULTS
+======================================================================
+
+Configuration
+Number of clients: 3
+Federated rounds: 5
+Local epochs: 1
+Batch size: 32
+Learning rate: 0.001
+Clipping norm: 1.0
+Noise multiplier: 0.01
+
+Round-wise Global Results
+----------------------------------------------------------------------
+Round 1: Accuracy = 60.00%, Loss = 1.0846
+Round 2: Accuracy = 76.44%, Loss = 0.6939
+Round 3: Accuracy = 79.25%, Loss = 0.5490
+Round 4: Accuracy = 82.13%, Loss = 0.4939
+Round 5: Accuracy = 83.44%, Loss = 0.4651
+
+Final Federated Result
+----------------------------------------------------------------------
+Final Test Accuracy: 83.44%
+Final Test Loss: 0.4651
+
+Privacy Mechanism
+----------------------------------------------------------------------
+Client updates are subjected to L2 norm clipping followed by Gaussian noise addition.
+This implementation is treated as DP-style update perturbation; no formal epsilon-delta privacy accountant is claimed.

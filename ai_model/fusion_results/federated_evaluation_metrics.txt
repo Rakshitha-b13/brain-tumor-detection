@@ -1,0 +1,49 @@
+PRIVACY-AWARE FEDERATED MODEL EVALUATION
+======================================================================
+
+Test Samples: 1600
+
+Overall Evaluation Metrics
+----------------------------------------------------------------------
+Accuracy  : 83.44%
+Precision : 84.37%
+Recall    : 83.44%
+F1-score  : 83.02%
+
+Class-wise Classification Report
+----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+      Glioma     0.9158    0.6250    0.7429       400
+  Meningioma     0.7105    0.7975    0.7515       400
+    No Tumor     0.8455    0.9850    0.9099       400
+   Pituitary     0.9029    0.9300    0.9163       400
+
+    accuracy                         0.8344      1600
+   macro avg     0.8437    0.8344    0.8302      1600
+weighted avg     0.8437    0.8344    0.8302      1600
+
+Confusion Matrix
+----------------------------------------------------------------------
+[[250 103  34  13]
+ [ 16 319  38  27]
+ [  0   6 394   0]
+ [  7  21   0 372]]
+
+Class-wise Specificity
+----------------------------------------------------------------------
+Glioma         : 98.08%
+Meningioma     : 89.17%
+No Tumor       : 94.00%
+Pituitary      : 96.67%
+
+Macro Specificity: 94.48%
+
+Class-wise ROC-AUC
+----------------------------------------------------------------------
+Glioma         : 0.9224
+Meningioma     : 0.9321
+No Tumor       : 0.9968
+Pituitary      : 0.9916
+
+Macro ROC-AUC: 0.9607

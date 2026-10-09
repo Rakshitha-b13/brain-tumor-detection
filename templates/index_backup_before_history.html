@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Brain Tumor AI
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header class="top-header">
+
+    <div>
+
+        <h1>
+            Brain Tumor AI
+        </h1>
+
+        <p class="header-subtitle">
+            Privacy-Aware MRI Analysis & Explainable AI
+        </p>
+
+    </div>
+
+
+    <div class="status-badge">
+
+        <span class="status-dot"></span>
+
+        AI System Ready
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+     ===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         INTRODUCTION
+         ================================================= -->
+
+    <section class="intro-card">
+
+        <h2>
+            Brain Tumor Detection System
+        </h2>
+
+        <p>
+            Upload a brain MRI image to obtain an AI-assisted
+            tumor classification with confidence scores and
+            Grad-CAM explainability.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MRI UPLOAD
+         ================================================= -->
+
+    <section class="upload-card">
+
+        <div class="section-title">
+
+            <span class="section-number">
+                01
+            </span>
+
+            <div>
+
+                <h2>
+                    MRI Analysis
+                </h2>
+
+                <p>
+                    Upload an MRI image for analysis
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="uploadForm"
+              enctype="multipart/form-data">
+
+
+            <div class="upload-area">
+
+                <div class="upload-icon">
+                    🧠
+                </div>
+
+                <h3>
+                    Select Brain MRI
+                </h3>
+
+                <p>
+                    Supported image formats: JPG, JPEG, PNG
+                </p>
+
+
+                <input type="file"
+                       id="mri_image"
+                       name="mri_image"
+                       accept="image/*"
+                       required>
+
+            </div>
+
+
+            <button type="submit"
+                    class="analyze-button">
+
+                Analyze MRI
+
+            </button>
+
+
+        </form>
+
+
+        <!-- Loading -->
+
+        <div id="loading"
+             class="loading-box"
+             style="display:none;">
+
+            <div class="spinner"></div>
+
+            <p>
+                AI is analyzing the MRI...
+            </p>
+
+            <small>
+                Please wait while the model processes the image.
+            </small>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ANALYSIS RESULTS
+         ================================================= -->
+
+    <section id="result"
+             class="results-dashboard"
+             style="display:none;">
+
+
+        <div class="section-title">
+
+            <span class="section-number">
+                02
+            </span>
+
+            <div>
+
+                <h2>
+                    Analysis Results
+                </h2>
+
+                <p>
+                    AI-generated MRI analysis
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             IMAGE COMPARISON
+             ================================================= -->
+
+        <div class="image-grid">
+
+
+            <!-- ORIGINAL MRI -->
+
+            <div class="image-card">
+
+                <div class="image-card-header">
+
+                    <h3>
+                        Original MRI
+                    </h3>
+
+                    <span class="image-label">
+                        INPUT
+                    </span>
+
+                </div>
+
+
+                <img id="uploadedImage"
+                     class="medical-image"
+                     alt="Uploaded MRI">
+
+            </div>
+
+
+
+            <!-- GRAD-CAM -->
+
+            <div id="gradcamSection"
+                 class="image-card"
+                 style="display:none;">
+
+                <div class="image-card-header">
+
+                    <h3>
+                        AI Attention / Grad-CAM
+                    </h3>
+
+                    <span class="image-label explainable">
+                        EXPLAINABLE AI
+                    </span>
+
+                </div>
+
+
+                <img id="gradcamImage"
+                     class="medical-image"
+                     alt="Grad-CAM visualization">
+
+
+                <p class="image-description">
+
+                    Highlighted regions represent areas
+                    that contributed to the model prediction.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             AI PREDICTION
+             ================================================= -->
+
+        <div class="prediction-card">
+
+
+            <div class="section-title">
+
+                <span class="section-number">
+                    03
+                </span>
+
+                <div>
+
+                    <h2>
+                        AI Prediction
+                    </h2>
+
+                    <p>
+                        Classification result
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="prediction-content">
+
+
+                <div>
+
+                    <p class="prediction-label">
+                        Predicted Class
+                    </p>
+
+                    <h2 id="prediction"
+                        class="prediction-value">
+
+                    </h2>
+
+                </div>
+
+
+                <div class="confidence-box">
+
+                    <p>
+                        Confidence
+                    </p>
+
+                    <strong>
+
+                        <span id="confidence">
+                            0
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             CLASS PROBABILITIES
+             ================================================= -->
+
+        <div class="probability-card">
+
+
+            <div class="section-title">
+
+                <span class="section-number">
+                    04
+                </span>
+
+                <div>
+
+                    <h2>
+                        Class Probabilities
+                    </h2>
+
+                    <p>
+                        Model confidence across all classes
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- GLIOMA -->
+
+            <div class="probability-item">
+
+                <div class="probability-header">
+
+                    <span>
+                        Glioma
+                    </span>
+
+                    <strong>
+
+                        <span id="gliomaProbability">
+                            0
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <progress id="gliomaBar"
+                          value="0"
+                          max="100">
+
+                </progress>
+
+            </div>
+
+
+
+            <!-- MENINGIOMA -->
+
+            <div class="probability-item">
+
+                <div class="probability-header">
+
+                    <span>
+                        Meningioma
+                    </span>
+
+                    <strong>
+
+                        <span id="meningiomaProbability">
+                            0
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <progress id="meningiomaBar"
+                          value="0"
+                          max="100">
+
+                </progress>
+
+            </div>
+
+
+
+            <!-- NO TUMOR -->
+
+            <div class="probability-item">
+
+                <div class="probability-header">
+
+                    <span>
+                        No Tumor
+                    </span>
+
+                    <strong>
+
+                        <span id="noTumorProbability">
+                            0
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <progress id="noTumorBar"
+                          value="0"
+                          max="100">
+
+                </progress>
+
+            </div>
+
+
+
+            <!-- PITUITARY -->
+
+            <div class="probability-item">
+
+                <div class="probability-header">
+
+                    <span>
+                        Pituitary Tumor
+                    </span>
+
+                    <strong>
+
+                        <span id="pituitaryProbability">
+                            0
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <progress id="pituitaryBar"
+                          value="0"
+                          max="100">
+
+                </progress>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DISCLAIMER
+             ================================================= -->
+
+        <div class="disclaimer">
+
+            <strong>
+                ⚠ Research & Decision-Support Notice
+            </strong>
+
+            <p>
+
+                This system is an AI research prototype intended
+                for educational and decision-support purposes.
+                It is not a substitute for professional medical
+                diagnosis or clinical judgment.
+
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         FEDERATED LEARNING OVERVIEW
+         ================================================= -->
+
+    <section class="federated-card">
+
+
+        <div class="section-title">
+
+            <span class="section-number">
+                05
+            </span>
+
+            <div>
+
+                <h2>
+                    Federated Learning Overview
+                </h2>
+
+                <p>
+                    Privacy-aware collaborative model training
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FEDERATED SUMMARY
+             ================================================= -->
+
+        <div class="federated-summary">
+
+
+            <!-- CLIENTS -->
+
+            <div class="federated-stat">
+
+                <span class="stat-icon">
+                    🏥
+                </span>
+
+                <div>
+
+                    <strong>
+                        3
+                    </strong>
+
+                    <p>
+                        Participating Clients
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ROUNDS -->
+
+            <div class="federated-stat">
+
+                <span class="stat-icon">
+                    🔄
+                </span>
+
+                <div>
+
+                    <strong id="federatedRounds">
+                        5
+                    </strong>
+
+                    <p>
+                        Federated Rounds
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MODEL -->
+
+            <div class="federated-stat">
+
+                <span class="stat-icon">
+                    🧠
+                </span>
+
+                <div>
+
+                    <strong>
+                       Privacy-Aware Fusion
+                    </strong>
+
+                    <p>
+                        Global Model
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCURACY -->
+
+            <div class="federated-stat">
+
+                <span class="stat-icon">
+                    🎯
+                </span>
+
+                <div>
+
+                    <strong id="federatedAccuracy">
+                        83.44%
+                    </strong>
+
+                    <p>
+                        Global Test Accuracy
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FEDERATED CLIENTS
+             ================================================= -->
+
+        <h3 class="federated-subtitle">
+
+            Federated Clients
+
+        </h3>
+
+
+
+        <div class="client-grid">
+
+
+            <!-- CLIENT 1 -->
+
+            <div class="client-card">
+
+                <div class="client-header">
+
+                    <span class="client-icon">
+                        🏥
+                    </span>
+
+                    <span class="client-status">
+                        LOCAL
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Hospital / Client 1
+                </h3>
+
+
+                <p>
+                    Local MRI data remains on the client.
+                </p>
+
+
+                <strong id="client-1-samples">
+                    1,400 Training Images
+                </strong>
+
+            </div>
+
+
+
+            <!-- CLIENT 2 -->
+
+            <div class="client-card">
+
+                <div class="client-header">
+
+                    <span class="client-icon">
+                        🏥
+                    </span>
+
+                    <span class="client-status">
+                        LOCAL
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Hospital / Client 2
+                </h3>
+
+
+                <p>
+                    Local MRI data remains on the client.
+                </p>
+
+
+                <strong id="client-2-samples">
+                    2000 Training Images
+                </strong>
+
+            </div>
+
+
+
+            <!-- CLIENT 3 -->
+
+            <div class="client-card">
+
+                <div class="client-header">
+
+                    <span class="client-icon">
+                        🏥
+                    </span>
+
+                    <span class="client-status">
+                        LOCAL
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Hospital / Client 3
+                </h3>
+
+
+                <p>
+                    Local MRI data remains on the client.
+                </p>
+
+
+                <strong id="client-3-samples">
+                    2200 Training Images
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FEDERATED WORKFLOW
+             ================================================= -->
+
+        <h3 class="federated-subtitle">
+
+            Federated Training Workflow
+
+        </h3>
+
+
+
+        <div class="federated-flow">
+
+
+            <!-- STEP 1 -->
+
+            <div class="flow-step">
+
+                <span>
+                    01
+                </span>
+
+                <strong>
+                    Local Data
+                </strong>
+
+                <p>
+                    MRI data stays within each client.
+                </p>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="flow-step">
+
+                <span>
+                    02
+                </span>
+
+                <strong>
+                    Local Training
+                </strong>
+
+                <p>
+                    Each client trains its local model.
+                </p>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="flow-step">
+
+                <span>
+                    03
+                </span>
+
+                <strong>
+                    Model Updates
+                </strong>
+
+                <p>
+                    Model parameters are shared instead of
+                    raw MRI data.
+                </p>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <!-- STEP 4 -->
+
+            <div class="flow-step">
+
+                <span>
+                    04
+                </span>
+
+                <strong>
+                    FedAvg
+                </strong>
+
+                <p>
+                    Client updates are aggregated into
+                    a global model.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PRIVACY INFORMATION
+             ================================================= -->
+
+        <div class="federated-privacy">
+
+
+            <strong>
+                🔐 Privacy-Aware Architecture
+            </strong>
+
+
+            <p>
+
+                 These results demonstrate the performance trade-off
+                associated with privacy-aware collaborative learning.
+                The federated approach enables distributed model
+                training across participating clients without directly
+                centralizing their local training images.
+            </p>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <p>
+
+        Brain Tumor AI • Federated Deep Learning •
+        Explainable AI
+
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+
+document
+    .getElementById("uploadForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+
+            event.preventDefault();
+
+
+            // =============================================
+            // SHOW LOADING
+            // =============================================
+
+            document
+                .getElementById("loading")
+                .style.display = "block";
+
+
+            document
+                .getElementById("result")
+                .style.display = "none";
+
+
+            document
+                .getElementById("gradcamSection")
+                .style.display = "none";
+
+
+
+            // =============================================
+            // GET SELECTED IMAGE
+            // =============================================
+
+            const image =
+                document
+                    .getElementById("mri_image")
+                    .files[0];
+
+
+            if (!image) {
+
+                alert(
+                    "Please select an MRI image."
+                );
+
+
+                document
+                    .getElementById("loading")
+                    .style.display = "none";
+
+
+                return;
+
+            }
+
+
+
+            // =============================================
+            // CREATE FORM DATA
+            // =============================================
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "mri_image",
+                image
+            );
+
+
+
+            try {
+
+
+                // =========================================
+                // SEND IMAGE TO FLASK
+                // =========================================
+
+                const response =
+                    await fetch(
+                        "/upload",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+
+                // =========================================
+                // HIDE LOADING
+                // =========================================
+
+                document
+                    .getElementById("loading")
+                    .style.display = "none";
+
+
+
+                // =========================================
+                // SUCCESS
+                // =========================================
+
+                if (data.success) {
+
+
+                    // -------------------------------------
+                    // Prediction
+                    // -------------------------------------
+
+                    document
+                        .getElementById("prediction")
+                        .innerText =
+                        data.prediction;
+
+
+
+                    // -------------------------------------
+                    // Confidence
+                    // -------------------------------------
+
+                    document
+                        .getElementById("confidence")
+                        .innerText =
+                        data.confidence;
+
+
+
+                    // -------------------------------------
+                    // Original MRI
+                    // -------------------------------------
+
+                    document
+                        .getElementById("uploadedImage")
+                        .src =
+                        data.image;
+
+
+
+                    // =====================================
+                    // PROBABILITIES
+                    // =====================================
+
+                    const probabilities =
+                        data.probabilities;
+
+
+
+                    // -------------------------------------
+                    // Glioma
+                    // -------------------------------------
+
+                    document
+                        .getElementById(
+                            "gliomaProbability"
+                        )
+                        .innerText =
+                        probabilities["Glioma"];
+
+
+                    document
+                        .getElementById(
+                            "gliomaBar"
+                        )
+                        .value =
+                        probabilities["Glioma"];
+
+
+
+                    // -------------------------------------
+                    // Meningioma
+                    // -------------------------------------
+
+                    document
+                        .getElementById(
+                            "meningiomaProbability"
+                        )
+                        .innerText =
+                        probabilities["Meningioma"];
+
+
+                    document
+                        .getElementById(
+                            "meningiomaBar"
+                        )
+                        .value =
+                        probabilities["Meningioma"];
+
+
+
+                    // -------------------------------------
+                    // No Tumor
+                    // -------------------------------------
+
+                    document
+                        .getElementById(
+                            "noTumorProbability"
+                        )
+                        .innerText =
+                        probabilities["No Tumor"];
+
+
+                    document
+                        .getElementById(
+                            "noTumorBar"
+                        )
+                        .value =
+                        probabilities["No Tumor"];
+
+
+
+                    // -------------------------------------
+                    // Pituitary Tumor
+                    // -------------------------------------
+
+                    document
+                        .getElementById(
+                            "pituitaryProbability"
+                        )
+                        .innerText =
+                        probabilities["Pituitary Tumor"];
+
+
+                    document
+                        .getElementById(
+                            "pituitaryBar"
+                        )
+                        .value =
+                        probabilities["Pituitary Tumor"];
+
+
+
+                    // =====================================
+                    // GRAD-CAM
+                    // =====================================
+
+                    if (data.gradcam) {
+
+
+                        document
+                            .getElementById(
+                                "gradcamImage"
+                            )
+                            .src =
+                            data.gradcam
+                            + "?t="
+                            + new Date().getTime();
+
+
+                        document
+                            .getElementById(
+                                "gradcamSection"
+                            )
+                            .style.display =
+                            "block";
+
+                    }
+
+
+
+                    // =====================================
+                    // SHOW RESULTS
+                    // =====================================
+
+                    document
+                        .getElementById("result")
+                        .style.display =
+                        "block";
+
+
+                    // Scroll to results
+
+                    document
+                        .getElementById("result")
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+
+                }
+
+
+                else {
+
+
+                    alert(
+                        "Prediction failed: "
+                        + data.error
+                    );
+
+                }
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    error
+                );
+
+
+                document
+                    .getElementById("loading")
+                    .style.display =
+                    "none";
+
+
+                alert(
+                    "Something went wrong while analyzing the MRI."
+                );
+
+            }
+
+
+        }
+
+    );
+
+// Load actual federated learning results from Flask backend
+fetch("/federated-results")
+    .then(response => response.json())
+    .then(data => {
+
+        if (!data.success) {
+            console.error("Federated results error:", data.error);
+            return;
+        }
+
+        // Update federated rounds
+        const roundsElement =
+            document.getElementById("federatedRounds");
+
+        if (roundsElement) {
+            roundsElement.textContent = data.rounds.length;
+        }
+
+        // Update final federated accuracy
+        const accuracyElement =
+            document.getElementById("federatedAccuracy");
+
+        if (accuracyElement) {
+            accuracyElement.textContent =
+                data.final_accuracy + "%";
+        }
+
+        // Update client sample counts
+        data.clients.forEach(client => {
+
+            const clientElement =
+                document.getElementById(
+                    "client-" + client.client_id + "-samples"
+                );
+
+            if (clientElement) {
+                clientElement.textContent =
+                    client.samples.toLocaleString()
+                    + " Training Images";
+            }
+        });
+
+        console.log(
+            "Federated results loaded successfully:",
+            data
+        );
+    })
+    .catch(error => {
+        console.error(
+            "Failed to load federated results:",
+            error
+        );
+    });
+    // =====================================================
+// FEDERATED LEARNING CONVERGENCE CHART
+// =====================================================
+
+fetch("/federated-results")
+    .then(response => response.json())
+    .then(data => {
+
+        if (!data.success) {
+            console.error("Unable to load convergence data.");
+            return;
+        }
+
+        const federatedCard = document.querySelector(".federated-card");
+
+        if (!federatedCard) {
+            console.error("Federated Learning section not found.");
+            return;
+        }
+
+        // Prevent duplicate chart
+        if (document.getElementById("federated-convergence")) {
+            return;
+        }
+
+        const chartSection = document.createElement("div");
+        chartSection.id = "federated-convergence";
+
+        chartSection.style.marginTop = "30px";
+        chartSection.style.padding = "24px";
+        chartSection.style.borderRadius = "16px";
+        chartSection.style.background = "#f8faff";
+        chartSection.style.border = "1px solid #e4eaf5";
+
+        chartSection.innerHTML = `
+            <h3 style="margin-bottom: 6px; color: #40577d;">
+                Federated Accuracy Convergence
+            </h3>
+
+            <p style="margin-bottom: 20px; color: #7b879d; font-size: 14px;">
+                Global test accuracy across federated training rounds
+            </p>
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:flex-end;
+                height:220px;
+                padding:20px 10px 10px 10px;
+                border-bottom:1px solid #dce3ef;
+            " id="convergence-bars">
+            </div>
+
+            <div style="
+                display:flex;
+                justify-content:space-around;
+                margin-top:12px;
+                color:#71809a;
+                font-size:13px;
+            " id="round-labels">
+            </div>
+
+            <div style="
+                margin-top:18px;
+                text-align:center;
+                font-size:14px;
+                color:#5d6b82;
+            ">
+                Accuracy improved from
+                <strong>${data.global_accuracy[0]}%</strong>
+                in Round 1 to
+                <strong>${data.final_accuracy}%</strong>
+                in Round ${data.rounds.length}.
+            </div>
+        `;
+
+        federatedCard.appendChild(chartSection);
+
+        const barsContainer =
+            document.getElementById("convergence-bars");
+
+        const labelsContainer =
+            document.getElementById("round-labels");
+
+        const maxAccuracy = 100;
+
+        data.global_accuracy.forEach((accuracy, index) => {
+
+            const barWrapper = document.createElement("div");
+
+            barWrapper.style.width = "15%";
+            barWrapper.style.height = "100%";
+            barWrapper.style.display = "flex";
+            barWrapper.style.flexDirection = "column";
+            barWrapper.style.justifyContent = "flex-end";
+            barWrapper.style.alignItems = "center";
+
+            const value = document.createElement("div");
+
+            value.textContent = accuracy + "%";
+
+            value.style.fontSize = "12px";
+            value.style.fontWeight = "600";
+            value.style.color = "#526b92";
+            value.style.marginBottom = "6px";
+
+            const bar = document.createElement("div");
+
+            bar.style.width = "55%";
+            bar.style.height = (accuracy / maxAccuracy * 100) + "%";
+            bar.style.minHeight = "8px";
+            bar.style.borderRadius = "8px 8px 0 0";
+            bar.style.background =
+                "linear-gradient(to top, #719ee8, #9b8fe8)";
+
+            bar.title =
+                "Round " + data.rounds[index] +
+                ": " + accuracy + "%";
+
+            barWrapper.appendChild(value);
+            barWrapper.appendChild(bar);
+
+            barsContainer.appendChild(barWrapper);
+
+            const label = document.createElement("div");
+
+            label.textContent =
+                "Round " + data.rounds[index];
+
+            labelsContainer.appendChild(label);
+        });
+
+        console.log(
+            "Federated convergence chart loaded successfully."
+        );
+    })
+    .catch(error => {
+        console.error(
+            "Failed to load federated convergence data:",
+            error
+        );
+    });
+    // =====================================================
+// MODEL PERFORMANCE COMPARISON
+// =====================================================
+
+fetch("/federated-results")
+    .then(response => response.json())
+    .then(data => {
+
+        if (!data.success) {
+            console.error("Unable to load model comparison data.");
+            return;
+        }
+
+        const federatedCard =
+            document.querySelector(".federated-card");
+
+        if (!federatedCard) {
+            console.error("Federated Learning section not found.");
+            return;
+        }
+
+        // Prevent duplicate comparison section
+        if (document.getElementById("model-comparison")) {
+            return;
+        }
+
+        const comparisonSection =
+            document.createElement("div");
+
+        comparisonSection.id = "model-comparison";
+
+        comparisonSection.style.marginTop = "30px";
+        comparisonSection.style.padding = "24px";
+        comparisonSection.style.borderRadius = "16px";
+        comparisonSection.style.background = "#f8faff";
+        comparisonSection.style.border = "1px solid #e4eaf5";
+
+        comparisonSection.innerHTML = `
+            <h3 style="margin-bottom: 6px; color: #40577d;">
+                Model Performance Comparison
+            </h3>
+
+            <p style="
+                margin-bottom: 22px;
+                color: #7b879d;
+                font-size: 14px;
+            ">
+                Test accuracy comparison across evaluated models
+            </p>
+
+            <div id="model-comparison-bars"></div>
+        `;
+
+        federatedCard.appendChild(comparisonSection);
+
+        const barsContainer =
+            document.getElementById("model-comparison-bars");
+
+        data.model_comparison.forEach(item => {
+
+            const row =
+                document.createElement("div");
+
+            row.style.marginBottom = "18px";
+
+            const header =
+                document.createElement("div");
+
+            header.style.display = "flex";
+            header.style.justifyContent = "space-between";
+            header.style.marginBottom = "7px";
+            header.style.fontSize = "14px";
+            header.style.color = "#52627a";
+
+            const modelName =
+                document.createElement("span");
+
+            modelName.textContent = item.model;
+            modelName.style.fontWeight = "600";
+
+            const accuracy =
+                document.createElement("strong");
+
+            accuracy.textContent =
+                item.accuracy + "%";
+
+            accuracy.style.color = "#40577d";
+
+            header.appendChild(modelName);
+            header.appendChild(accuracy);
+
+            const track =
+                document.createElement("div");
+
+            track.style.width = "100%";
+            track.style.height = "12px";
+            track.style.background = "#e7ecf5";
+            track.style.borderRadius = "10px";
+            track.style.overflow = "hidden";
+
+            const bar =
+                document.createElement("div");
+
+            bar.style.width =
+                item.accuracy + "%";
+
+            bar.style.height = "100%";
+            bar.style.borderRadius = "10px";
+
+            bar.style.background =
+                "linear-gradient(to right, #719ee8, #9b8fe8)";
+
+            track.appendChild(bar);
+
+            row.appendChild(header);
+            row.appendChild(track);
+
+            barsContainer.appendChild(row);
+        });
+
+        console.log(
+            "Model comparison loaded successfully:",
+            data.model_comparison
+        );
+    })
+    .catch(error => {
+        console.error(
+            "Failed to load model comparison:",
+            error
+        );
+    });
+    // =====================================================
+// PRIVACY METRICS
+// =====================================================
+
+fetch("/federated-results")
+    .then(response => response.json())
+    .then(data => {
+
+        if (!data.success || !data.privacy) {
+            console.error("Privacy metrics unavailable.");
+            return;
+        }
+
+        const federatedCard =
+            document.querySelector(".federated-card");
+
+        if (!federatedCard) {
+            console.error("Federated Learning section not found.");
+            return;
+        }
+
+        // Prevent duplicate privacy panel
+        if (document.getElementById("privacy-metrics")) {
+            return;
+        }
+
+        const privacySection =
+            document.createElement("div");
+
+        privacySection.id = "privacy-metrics";
+
+        privacySection.style.marginTop = "30px";
+        privacySection.style.padding = "24px";
+        privacySection.style.borderRadius = "16px";
+        privacySection.style.background = "#f8faff";
+        privacySection.style.border = "1px solid #e4eaf5";
+
+        privacySection.innerHTML = `
+            <h3 style="margin-bottom: 6px; color: #40577d;">
+                Privacy Metrics
+            </h3>
+
+            <p style="
+                margin-bottom: 20px;
+                color: #7b879d;
+                font-size: 14px;
+            ">
+                Privacy-aware controls applied during federated training
+            </p>
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                    repeat(auto-fit, minmax(190px, 1fr));
+                gap:16px;
+            ">
+
+                <div style="
+                    padding:18px;
+                    border-radius:12px;
+                    background:#ffffff;
+                    border:1px solid #e4eaf5;
+                ">
+                    <div style="
+                        font-size:12px;
+                        color:#7b879d;
+                        margin-bottom:6px;
+                    ">
+                        Update Clipping Norm
+                    </div>
+
+                    <strong style="
+                        font-size:22px;
+                        color:#40577d;
+                    ">
+                        ${data.privacy.clip_norm}
+                    </strong>
+                </div>
+
+                <div style="
+                    padding:18px;
+                    border-radius:12px;
+                    background:#ffffff;
+                    border:1px solid #e4eaf5;
+                ">
+                    <div style="
+                        font-size:12px;
+                        color:#7b879d;
+                        margin-bottom:6px;
+                    ">
+                        Noise Multiplier
+                    </div>
+
+                    <strong style="
+                        font-size:22px;
+                        color:#40577d;
+                    ">
+                        ${data.privacy.noise_multiplier}
+                    </strong>
+                </div>
+
+                <div style="
+                    padding:18px;
+                    border-radius:12px;
+                    background:#ffffff;
+                    border:1px solid #e4eaf5;
+                ">
+                    <div style="
+                        font-size:12px;
+                        color:#7b879d;
+                        margin-bottom:6px;
+                    ">
+                        Privacy Method
+                    </div>
+
+                    <strong style="
+                        font-size:16px;
+                        color:#40577d;
+                    ">
+                        ${data.privacy.method}
+                    </strong>
+                </div>
+
+                <div style="
+                    padding:18px;
+                    border-radius:12px;
+                    background:#ffffff;
+                    border:1px solid #e4eaf5;
+                ">
+                    <div style="
+                        font-size:12px;
+                        color:#7b879d;
+                        margin-bottom:6px;
+                    ">
+                        Formal Accountant
+                    </div>
+
+                    <strong style="
+                        font-size:16px;
+                        color:#40577d;
+                    ">
+                        ${data.privacy.formal_accountant
+                            ? "Implemented"
+                            : "Not Implemented"}
+                    </strong>
+                </div>
+
+            </div>
+
+            <div style="
+                margin-top:18px;
+                padding:14px 16px;
+                border-radius:10px;
+                background:#ffffff;
+                border:1px solid #e4eaf5;
+                color:#66758d;
+                font-size:13px;
+                line-height:1.6;
+            ">
+                <strong>Privacy note:</strong>
+                Client model updates are clipped and perturbed with
+                Gaussian noise before aggregation. The current
+                implementation uses DP-style update perturbation;
+                a formal privacy accountant is not implemented.
+            </div>
+        `;
+
+        federatedCard.appendChild(privacySection);
+
+        console.log(
+            "Privacy metrics loaded successfully:",
+            data.privacy
+        );
+    })
+    .catch(error => {
+        console.error(
+            "Failed to load privacy metrics:",
+            error
+        );
+    });
+</script>
+
+
+</body>
+
+</html>

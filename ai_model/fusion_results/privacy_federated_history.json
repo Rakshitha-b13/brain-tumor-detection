@@ -1,0 +1,257 @@
+{
+    "rounds": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "global_accuracy": [
+        0.6000000238418579,
+        0.7643749713897705,
+        0.7925000190734863,
+        0.8212500214576721,
+        0.8343750238418579
+    ],
+    "global_loss": [
+        1.084631085395813,
+        0.6938977241516113,
+        0.5490072965621948,
+        0.49391868710517883,
+        0.465055376291275
+    ],
+    "client_metrics": [
+        [
+            {
+                "client_id": 1,
+                "samples": 1400,
+                "loss": 0.8501093983650208,
+                "accuracy": 0.6414285898208618
+            },
+            {
+                "client_id": 2,
+                "samples": 2000,
+                "loss": 0.8119016885757446,
+                "accuracy": 0.6625000238418579
+            },
+            {
+                "client_id": 3,
+                "samples": 2200,
+                "loss": 0.6970903277397156,
+                "accuracy": 0.7286363840103149
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "samples": 1400,
+                "loss": 0.6401452422142029,
+                "accuracy": 0.727142870426178
+            },
+            {
+                "client_id": 2,
+                "samples": 2000,
+                "loss": 0.5875000953674316,
+                "accuracy": 0.7860000133514404
+            },
+            {
+                "client_id": 3,
+                "samples": 2200,
+                "loss": 0.4715527892112732,
+                "accuracy": 0.8340908885002136
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "samples": 1400,
+                "loss": 0.4898851215839386,
+                "accuracy": 0.7907142639160156
+            },
+            {
+                "client_id": 2,
+                "samples": 2000,
+                "loss": 0.4498990774154663,
+                "accuracy": 0.8500000238418579
+            },
+            {
+                "client_id": 3,
+                "samples": 2200,
+                "loss": 0.3593369126319885,
+                "accuracy": 0.8736363649368286
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "samples": 1400,
+                "loss": 0.3902032971382141,
+                "accuracy": 0.8349999785423279
+            },
+            {
+                "client_id": 2,
+                "samples": 2000,
+                "loss": 0.36707621812820435,
+                "accuracy": 0.862500011920929
+            },
+            {
+                "client_id": 3,
+                "samples": 2200,
+                "loss": 0.2808811664581299,
+                "accuracy": 0.9068182110786438
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "samples": 1400,
+                "loss": 0.3209475576877594,
+                "accuracy": 0.8650000095367432
+            },
+            {
+                "client_id": 2,
+                "samples": 2000,
+                "loss": 0.3072005808353424,
+                "accuracy": 0.8899999856948853
+            },
+            {
+                "client_id": 3,
+                "samples": 2200,
+                "loss": 0.2350928634405136,
+                "accuracy": 0.9186363816261292
+            }
+        ]
+    ],
+    "privacy_metrics": [
+        [
+            {
+                "client_id": 1,
+                "before_clip_norm": 2.2898197174072266,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.43671560358990524,
+                "noise_l2_norm": 2.0720343589782715,
+                "average_noise_magnitude": 0.009979248978197575
+            },
+            {
+                "client_id": 2,
+                "before_clip_norm": 2.8416452407836914,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.3519088117149557,
+                "noise_l2_norm": 2.0706334114074707,
+                "average_noise_magnitude": 0.009972501546144485
+            },
+            {
+                "client_id": 3,
+                "before_clip_norm": 2.872220277786255,
+                "after_clip_norm": 0.9999998807907104,
+                "clipping_factor": 0.3481627115209963,
+                "noise_l2_norm": 2.0787436962127686,
+                "average_noise_magnitude": 0.010011562146246433
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "before_clip_norm": 1.9100933074951172,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.523534633661886,
+                "noise_l2_norm": 2.077169895172119,
+                "average_noise_magnitude": 0.010003983043134212
+            },
+            {
+                "client_id": 2,
+                "before_clip_norm": 2.213819980621338,
+                "after_clip_norm": 0.9999999403953552,
+                "clipping_factor": 0.45170791155244927,
+                "noise_l2_norm": 2.0739617347717285,
+                "average_noise_magnitude": 0.009988531470298767
+            },
+            {
+                "client_id": 3,
+                "before_clip_norm": 2.239797592163086,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.44646891464590016,
+                "noise_l2_norm": 2.081199884414673,
+                "average_noise_magnitude": 0.010023391805589199
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "before_clip_norm": 1.654091238975525,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.6045615722012733,
+                "noise_l2_norm": 2.0784754753112793,
+                "average_noise_magnitude": 0.010010271333158016
+            },
+            {
+                "client_id": 2,
+                "before_clip_norm": 1.9667447805404663,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.5084543810126136,
+                "noise_l2_norm": 2.0872862339019775,
+                "average_noise_magnitude": 0.010052705183625221
+            },
+            {
+                "client_id": 3,
+                "before_clip_norm": 1.8905415534973145,
+                "after_clip_norm": 0.9999998807907104,
+                "clipping_factor": 0.5289489660513255,
+                "noise_l2_norm": 2.068070888519287,
+                "average_noise_magnitude": 0.009960160590708256
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "before_clip_norm": 1.4959901571273804,
+                "after_clip_norm": 0.9999998807907104,
+                "clipping_factor": 0.6684535959244173,
+                "noise_l2_norm": 2.0910260677337646,
+                "average_noise_magnitude": 0.01007071603089571
+            },
+            {
+                "client_id": 2,
+                "before_clip_norm": 1.7079641819000244,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.5854923719108469,
+                "noise_l2_norm": 2.075334310531616,
+                "average_noise_magnitude": 0.009995141997933388
+            },
+            {
+                "client_id": 3,
+                "before_clip_norm": 1.679704189300537,
+                "after_clip_norm": 0.9999999403953552,
+                "clipping_factor": 0.5953429219080681,
+                "noise_l2_norm": 2.077768087387085,
+                "average_noise_magnitude": 0.010006864555180073
+            }
+        ],
+        [
+            {
+                "client_id": 1,
+                "before_clip_norm": 1.3246502876281738,
+                "after_clip_norm": 1.0000001192092896,
+                "clipping_factor": 0.7549162290900001,
+                "noise_l2_norm": 2.0770773887634277,
+                "average_noise_magnitude": 0.010003537870943546
+            },
+            {
+                "client_id": 2,
+                "before_clip_norm": 1.5323036909103394,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.6526121459677806,
+                "noise_l2_norm": 2.0702943801879883,
+                "average_noise_magnitude": 0.009970868937671185
+            },
+            {
+                "client_id": 3,
+                "before_clip_norm": 1.4774752855300903,
+                "after_clip_norm": 1.0,
+                "clipping_factor": 0.6768302724201183,
+                "noise_l2_norm": 2.075430393218994,
+                "average_noise_magnitude": 0.009995604865252972
+            }
+        ]
+    ]
+}

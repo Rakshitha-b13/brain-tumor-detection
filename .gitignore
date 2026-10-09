@@ -1,0 +1,28 @@
+# Python virtual environments
+venv/
+venv312/
+.venv/
+# Python cache
+__pycache__/
+*.py[cod]
+# Secrets
+.env
+.env.*
+# Generated reports and local database
+reports/
+users.db
+# MRI dataset
+ai_model/data/
+# Generated feature data
+ai_model/fusion_results/*.npz
+# Large trained models
+ai_model/archive/*.keras
+ai_model/models/cnn_baseline_best.keras
+ai_model/models/cnn_baseline_final.keras
+ai_model/models/resnet50_best.keras
+# Jupyter checkpoints
+.ipynb_checkpoints/
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
